@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dcgm-exporter-monitor
+  namespace: gpu-operator           # This is where you deploy it, use same namespace as DCGM Service
+  labels:
+    release: prometheus             # Must match your Prometheus Helm release name
+spec:
+  selector:
+    matchLabels:
+      app: nvidia-dcgm-exporter            # Must match the labels on your DCGM Service
+  endpoints:
+    - port: gpu-metrics                 # Name of the port exposed by the Service
+      interval: 30s
+  namespaceSelector:
+    matchNames:
+      - gpu-operator

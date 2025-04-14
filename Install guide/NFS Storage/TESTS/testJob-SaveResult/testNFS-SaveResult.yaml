@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-job-1
+  labels:
+    runai/queue: test
+  annotations:
+    gpu-fraction: "0.5"
+spec:
+  template:
+    spec:
+      schedulerName: kai-scheduler
+      containers:
+        - name: trainer
+          image: jebr0022/ai-trainer-save-result:latest
+          args: ["python", "train.py", "--job_id=1"]
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /mnt/nfs/training-results  # Path inside the pod where NFS will be mounted
+      restartPolicy: Never
+      volumes:
+        - name: nfs-storage
+          nfs:
+            server: 192.168.X.X    # NFS server IP
+            path: /srv/nfs         # NFS share path
+            readOnly: false
