@@ -1,6 +1,6 @@
 # Installation guide
 ## Step 1
-Before doing anything make sure your devices have the right [PC setup](Install%20guide/PC%20setup/README.md)
+Before doing anything make sure your devices have the right [PC setup](PC%20setup/README.md)
 
 ## Step 2
 When PCs are ready next step would be to install and create the Kubernetes cluster using [Rancher](Rancher/README.md)
