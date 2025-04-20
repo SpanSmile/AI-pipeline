@@ -1,44 +1,68 @@
-# PC Setup
+# PC & VM Setup Guide for Kubernetes Environment
 
-We used Ununtu 22.04 server for all PCs and VMs
-## Commands
-### Make sure to update and upgrade all PC
+This guide provides a setup procedure for all physical machines and virtual machines using Ubuntu 22.04 Server. It includes Kubernetes node configuration, and Docker setup for the Rancher host.
+
+---
+
+## 1. Base System Preparation
+
+### OS Used
+All machines (physical PCs and VMs) run **Ubuntu 22.04 Server**.
+
+### Update & Upgrade
+Ensure every system is up to date:
 ```sh
 sudo apt update && sudo apt upgrade -y
 ```
-## Commands for all Kubernetes PCs
 
-### Remove Swap
+---
+
+## 2. Common Setup for All Kubernetes Nodes
+
+### Disable Swap
+Swap must be disabled for Kubernetes:
 ```sh
 sudo swapoff -a
-sudo nano /etc/fstab   # Commenting out the swap entry
+sudo nano /etc/fstab
 ```
+- Comment out any line containing `swap`.
 
-### Confrim it's no longer active
+### Confirm Swap is Disabled
 ```sh
 free -h
 ```
-Look for `Swap: 0B 0B 0B`
+Look for this `Swap: 0B 0B 0B` in the output
 
-### If using a NFS share install NFS-tools to `WORKER` nodes
+### NFS Client Setup (for Worker Nodes Only)
+If you're using NFS storage and this is a **worker node**:
 ```sh
 sudo apt install nfs-common
 sudo systemctl restart rke2-agent
 ```
 
-## Commands Rancher PC
+---
+
+## 3. Rancher Host Setup
+
+The PC or VM that will run Rancher needs Docker installed.
+
 ### Install Docker
 ```sh
 sudo apt install docker.io -y
 ```
-You can also download the newer Engine [HERE](https://docs.docker.com/engine/install/ubuntu/)
-### Make sure Docker is running
+For the latest Docker Engine, see the [official Docker install guide](https://docs.docker.com/engine/install/ubuntu/).
+
+### Verify Docker is Running
 ```sh
 sudo systemctl status docker
 ```
 
-### Add user to be able to acces Docker without sudo
+### Optional: Enable Docker Without `sudo`
 ```sh
 sudo usermod -aG docker $USER
 sudo chmod 666 /var/run/docker.sock
 ```
+- You may need to **log out and back in** for group changes to take effect.
+
+---
+
