@@ -23,7 +23,6 @@ sudo chmod 777 /srv/nfs
 ```
 > ⚠️ These permissions make the directory fully open. Adjust for stricter access in production environments.
 
----
 
 ## 2. Configure NFS Exports
 
@@ -44,7 +43,6 @@ sudo exportfs -ra    # Apply changes
 sudo exportfs -v     # View active exports
 ```
 
----
 
 ## 3. Firewall Configuration (UFW)
 Allow NFS traffic through the firewall:
@@ -53,7 +51,6 @@ sudo ufw allow from 192.168.X.X/24 to any port nfs
 ```
 - Adjust IP/subnet to match your network.
 
----
 
 ## 4. Test NFS Access from Windows
 
@@ -68,5 +65,6 @@ sudo ufw allow from 192.168.X.X/24 to any port nfs
 
 If successful, you should see the contents of your `/srv/nfs` directory.
 
----
+## 5. Adding Persistant Volume & Persistant Volume Claim
+After verifying the NFS, we need to make Persistant Volume & Persistant Volume Claim in our kubernetes cluster
 

@@ -18,6 +18,11 @@ helm repo update
 ```sh
 helm repo list
 ```
+Look for an output like this::
+```sh
+NAME                    URL
+prometheus-community    https://prometheus-community.github.io/helm-charts
+```
 
 ### Install Kube-Prometheus-Stack
 
@@ -30,16 +35,17 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
 kubectl get pods -n monitoring
 ```
 
----
 
 ## 2. Configure Prometheus to Scrape GPU Metrics
 
 ### Check DCGM Exporter Logs and Namespace
 
 ```sh
-MAYBE ADD HOW TO FIND IT?
+# Get the name of a DCGM-exporter
+kubectl get pods -n gpu-operator
+
+# See if metrics collection enabled
 kubectl logs -n gpu-operator nvidia-dcgm-exporter-<pod-name>
-kubectl describe pod nvidia-dcgm-exporter-<pod-name> -n gpu-operator
 ```
 
 ### Identify Prometheus Instance
@@ -59,7 +65,6 @@ kubectl get prometheus prometheus-kube-prometheus-prometheus -n monitoring -o ya
 - Set `serviceMonitorNamespaceSelector: {}` to allow all namespaces.
 - Ensure `serviceMonitorSelector` has `matchLabels` with `release: prometheus`.
 
----
 
 ## 3. Create a ServiceMonitor for DCGM Exporter
 
@@ -71,31 +76,26 @@ kubectl get servicemonitors -A
 
 If none for DCGM exists, create one manually:
 
-### Create `dcgm-servicemonitor.yaml`
+### Create a DCGM ServiceMonitor
 
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: dcgm-exporter-monitor
-  namespace: gpu-operator       # 1. This is where you deploy it, use same namespace as DCGM Service
-  labels:
-    release: prometheus         # 2. Must match your Prometheus Helm release name
-spec:
-  selector:
-    matchLabels:
-      app: nvidia-dcgm-exporter # 3. Must match the labels on your DCGM Service
-  endpoints:
-    - port: gpu-metrics         # 4. Name of the port exposed by the Service
-      interval: 30s
-  namespaceSelector:
-    matchNames:
-      - gpu-operator
+Provided manifest:
+
+- [dcgm-serviceminitor.yaml](dcgm-servicemonitor.yaml)
+
+Remember to change the commented lines. See bellow to find the right names.
+```sh
+#1. namespace (Check what namespace dcgm-exporter is running in)
+get pods -A
+
+#2. release (Check "release=XXX" under the labels header)
+kubectl get prometheus -n monitoring --show-labels
+
+#3. app (check "app=XXX" under "label"-header for DCGM-exporter)
+kubectl get svc -n gpu-operator --show-labels
+
+#4. port (Check spec->ports->name)
+kubectl get svc nvidia-dcgm-exporter -n gpu-operator -o yaml
 ```
-1. namespace: `get pods -A` (Check what namespace dcgm-exporter is running)
-2. release: `kubectl get prometheus -n monitoring --show-labels` (check "release" under the labels header)
-3. app: `kubectl get svc -n gpu-operator --show-labels` (check "app" under "label"-header)
-4. port: `kubectl get svc nvidia-dcgm-exporter -n gpu-operator -o yaml` (check spec->ports->name)
 
 ### Apply the File
 
@@ -103,7 +103,6 @@ spec:
 kubectl apply -f dcgm-servicemonitor.yaml
 ```
 
----
 
 ## 4. Access Prometheus Web UI
 
@@ -113,16 +112,20 @@ kubectl apply -f dcgm-servicemonitor.yaml
 kubectl get svc -n monitoring
 kubectl expose svc prometheus-operated --type=NodePort --name=prometheus-ui -n monitoring
 ```
-
+### Access Prometheus Web Interface
+```sh
+kubectl get svc prometheus-ui -n monitoring
+```
+Look for ports, similar like this: `9090:32508/TCP`
 ### Access the Web Interface
 
 In your browser, go to:
 
 ```
-<your-node-ip>:<node-port>/targets
+<your-node-ip>:32508/targets
 ```
+Look for a line containing `DCGM`. Important that is says state: `UP`
 
----
 
 ## 5. Grafana Setup
 
@@ -155,11 +158,19 @@ kubectl edit svc grafana -n monitoring
 ```sh
 kubectl get svc grafana -n monitoring
 ```
-Look for XXX
+Look for ports, similar like this: 80:30948/TCP
 
 Then visit:
 
 ```
-<your-node-ip>:<node-port>
+<your-node-ip>:30948
 ```
 ---
+
+### Monitoring test
+Run some load example manifest:
+
+- [training-job-1.yaml](../KAI%20Scheduler/TESTS/testJob-KAI/training-job-1.yaml)
+- [training-job-2.yaml](../KAI%20Scheduler/TESTS/testJob-KAI/training-job-1.yaml)
+
+As it runs check the monitoring dashboard.
