@@ -31,6 +31,12 @@ free -h
 ```
 Look for this `Swap: 0B 0B 0B` in the output
 
+### NFS Client Setup (for Worker Nodes Only)
+This part is important to install that makes workers able to acces the NFS.
+```sh
+sudo apt install nfs-common
+sudo systemctl restart rke2-agent
+```
 
 ## 3. Rancher Host Setup
 

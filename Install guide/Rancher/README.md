@@ -50,3 +50,20 @@ management   Ready    control-plane,etcd,master   11d     v1.30.11+rke2r1
 worker1      Ready    worker                      11d     v1.30.11+rke2r1
 worker2      Ready    worker                      2d22h   v1.30.11+rke2r1
 ```
+
+### CPU testjob
+GPU arent accesable yet but we can make a CPU job to test the cluster.
+
+You can use the provided test pod manifest:
+- [cpu_job.yaml](cpu_job.yaml)
+
+### Deploy the Test Pod
+```sh
+kubectl apply -f cpu_job.yaml
+```
+
+### Check Pod Logs
+```sh
+kubectl logs <pod-name>
+```
+Look for an output like this: `Training Complete`

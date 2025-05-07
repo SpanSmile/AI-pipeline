@@ -51,19 +51,7 @@ sudo ufw allow from 192.168.X.X/24 to any port nfs
 ```
 - Adjust IP/subnet to match your network.
 
-
-### 4. NFS Client Setup (for Worker Nodes Only)
-This part is important to install that makes workers able to acces the NFS.
-
-If you're using NFS storage and this is a **worker node**:
-```sh
-sudo apt install nfs-common
-sudo systemctl restart rke2-agent
-```
-This part is important to make workers able to acces the 
-
-
-## 5. Test NFS Access from Windows
+## 4. Test NFS Access from Windows
 
 ### Enable NFS Client Feature
 1. Open **Control Panel** → **Programs** → **Turn Windows features on or off**
@@ -76,7 +64,7 @@ This part is important to make workers able to acces the
 
 If successful, you should see the contents of your `/srv/nfs` directory.
 
-## 6. Persistant Volume & Persistant Volume Claim
+## 5. Persistant Volume & Persistant Volume Claim
 
 ### Adding PV and PVC
 After verifying the NFS, we need to make Persistant Volume & Persistant Volume Claim in our kubernetes cluster. Provided following manifests:
