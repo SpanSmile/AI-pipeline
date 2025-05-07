@@ -117,6 +117,6 @@ Provided manifests:
 - [training-job-1.yaml](TESTS/testJob-KAI/training-job-1.yaml)
 - [training-job-2.yaml](TESTS/testJob-KAI/training-job-2.yaml)
 
-In Rancher gui inside your cluster. In Workloads -> Pods, find you pods and make sure both is running at the same time and same worker.
+In Rancher gui inside your cluster. In Workloads → Pods, find your pods and make sure both is running at the same time and same worker.
 
 MAYBE ADD PICTURE???

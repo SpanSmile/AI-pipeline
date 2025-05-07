@@ -52,7 +52,18 @@ sudo ufw allow from 192.168.X.X/24 to any port nfs
 - Adjust IP/subnet to match your network.
 
 
-## 4. Test NFS Access from Windows
+### 4. NFS Client Setup (for Worker Nodes Only)
+This part is important to install that makes workers able to acces the NFS.
+
+If you're using NFS storage and this is a **worker node**:
+```sh
+sudo apt install nfs-common
+sudo systemctl restart rke2-agent
+```
+This part is important to make workers able to acces the 
+
+
+## 5. Test NFS Access from Windows
 
 ### Enable NFS Client Feature
 1. Open **Control Panel** → **Programs** → **Turn Windows features on or off**
@@ -65,6 +76,37 @@ sudo ufw allow from 192.168.X.X/24 to any port nfs
 
 If successful, you should see the contents of your `/srv/nfs` directory.
 
-## 5. Adding Persistant Volume & Persistant Volume Claim
-After verifying the NFS, we need to make Persistant Volume & Persistant Volume Claim in our kubernetes cluster
+## 6. Persistant Volume & Persistant Volume Claim
+
+### Adding PV and PVC
+After verifying the NFS, we need to make Persistant Volume & Persistant Volume Claim in our kubernetes cluster. Provided following manifests:
+
+- [pv.yaml](pv.yaml)
+- [pvc.yaml](pvc.yaml)
+
+```sh
+kubectl apply -f pv.yaml -f pvc.yaml
+```
+### Verify
+```sh
+ADD HERE
+```
+
+## Test with a pod
+Verify access to NFS from a pod. Provided following manifest:
+
+- [testNFS.yaml](TESTS/testpod/testNFS.yaml)
+
+### Open container
+```sh
+kubectl exec -it nfs-test-pod -- /bin/sh
+```
+
+### Add a file with `Hello from NFS!`
+```sh
+touch /mnt/nfs/test-file.txt
+echo "Hello from NFS!" > /mnt/nfs/test-file.txt
+```
+Know you should find a .txt file with the text `Hello from NFS!` in your NFS share.
+
 

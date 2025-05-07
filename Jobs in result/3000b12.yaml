@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: car-vision3000b12
+  labels:
+    runai/queue: test
+  annotations:
+    gpu-memory: "16100"
+spec:
+  schedulerName: kai-scheduler
+  containers:
+    - name: trainer
+      image: jebr0022/car-vision3000b12:v3
+      volumeMounts:
+        - name: nfs-storage
+          mountPath: /mnt/nfs/training-results  # This is where your result will be saved inside the container
+  restartPolicy: Never
+  volumes:
+    - name: nfs-storage
+      nfs:
+        server: 192.168.164.5            # NFS server IP
+        path: /srv/nfs/car-vision3000b12 # NFS share path
+        readOnly: false
+

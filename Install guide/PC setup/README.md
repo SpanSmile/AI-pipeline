@@ -15,8 +15,6 @@ Ensure every system is up to date:
 sudo apt update && sudo apt upgrade -y
 ```
 
----
-
 ## 2. Common Setup for All Kubernetes Nodes
 
 ### Disable Swap
@@ -33,14 +31,6 @@ free -h
 ```
 Look for this `Swap: 0B 0B 0B` in the output
 
-### NFS Client Setup (for Worker Nodes Only)
-If you're using NFS storage and this is a **worker node**:
-```sh
-sudo apt install nfs-common
-sudo systemctl restart rke2-agent
-```
-
----
 
 ## 3. Rancher Host Setup
 
@@ -64,5 +54,4 @@ sudo chmod 666 /var/run/docker.sock
 ```
 - You may need to **log out and back in** for group changes to take effect.
 
----
 
