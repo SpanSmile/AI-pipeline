@@ -51,7 +51,7 @@ worker1      Ready    worker                      11d     v1.30.11+rke2r1
 worker2      Ready    worker                      2d22h   v1.30.11+rke2r1
 ```
 
-### CPU testjob
+### CPU test job
 GPU arent accesable yet but we can make a CPU job to test the cluster.
 
 You can use the provided test pod manifest:
