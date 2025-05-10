@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-split-half1
+  labels:
+    runai/queue: test
+  annotations:
+    gpu-fraction: "0.5"
+spec:
+  template:
+    spec:
+      schedulerName: kai-scheduler
+      containers:
+        - name: trainer
+          image: jebr0022/ai-trainer-split:half1
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /mnt/nfs/training-results  # This is where your result will be saved inside the container
+      restartPolicy: Never
+      volumes:
+        - name: nfs-storage
+          nfs:
+            server: 192.168.164.5  # NFS server IP
+            path: /srv/nfs/split   # NFS share path
+            readOnly: false
