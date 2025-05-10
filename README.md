@@ -1,8 +1,6 @@
 # Thesis Work
 
-INFROMATION.......
-
-Technologies used:
+## Technologies used
 - Ubuntu 22.04 Server (on all nodes)
 - Kubernetes via RKE2
 - NVIDIA KAI Scheduler
