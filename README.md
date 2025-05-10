@@ -19,8 +19,9 @@ Technologies used:
 ## Usage
 Follow the [Install Guide](Install%20guide/README.md) to replicate the full setup.
 
+## Testing
 
-[Testing Chekpoints](Testing/checkpoints/README.md)
+[Testing Checkpoints](Testing/checkpoints/README.md)
 
 [Testing splitting large jobs](Testing/splitting%20large%20jobs/README.md)
 
