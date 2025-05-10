@@ -11,8 +11,8 @@ Install [GPU Operator](GPU%20Operator/README.md) to automate the management of N
 ## Part 4: KAI Scheduler
 To optimize GPU GPU resourse allocation for AI and machine learning we need a more robust Kubernetes Scheduler. Install [KAI Scheduler](KAI%20Scheduler/README.md).
 
-## Part 6: NFS Share
+## Part 5: NFS Share
 To save files from training we used a [NFS Share](NFS%20Storage/README.md). NFS is a network storage system that any device on the local network can access.
 
-## Part 5: Prometheus/Grafana
+## Part 6: Prometheus/Grafana
 For monitoring install [Prometheus and Grafana](Monitoring/README.md). Prometheus collects metrics from the cluster and Grafana visualize the metrics collected.
