@@ -15,6 +15,20 @@ This will combine `job1.yaml` and `job2.yaml`.
 
 To make this test you need run `combine.yaml` when both `job1.yaml` and `job2.yaml` are finished.
 
+
+### Output
+In the logs you should find rows like the following to verify that the jobs have successfully been combined:
+
+```sh
+# Job 1
+[Job 1] Model saved to /mnt/nfs/training-results/model_checkpoint_job_1.pth
+[Job 1] Done in 16.33s
+# Job 2
+[Job 2] Model saved to /mnt/nfs/training-results/model_checkpoint_job_2.pth
+[Job 2] Done in 4.71s
+# Combined
+Combined model saved to /mnt/nfs/training-results/combined_model.pth
+````
 ### Code
 You can also look at the source code:
 
