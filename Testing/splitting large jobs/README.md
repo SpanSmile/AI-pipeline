@@ -1,16 +1,16 @@
 # Splitting large jobs
-To run bigger jobs than physicaly avaiable on one node, we have to make the training jobs in smaller parts. This demonstration is just showing an example of how two trainings can be combined in the end.
+To run jobs larger than the available VRAM on a GPU, the job has to be split into smaller segments. This demonstration shows an example of how two jobs can be split to run separately and then be combined using a third job to form a final result.
 
 ## Example
 You can use the provided manifest files:
 
 ### Train
-These two jobs will later be combined.
-- [job1.yaml](ai-trainer-checkpoints.yaml)
-- [job1.yaml](ai-trainer-checkpoints.yaml)
+The following two jobs will later be combined into one result.
+- [job1.yaml](job1.yaml)
+- [job2.yaml](job2.yaml)
 
 ### Combine
-This will combine `job1.yaml` and ``job2.yaml`.
+This will combine `job1.yaml` and `job2.yaml`.
 - [ai-trainer-checkpoints.yaml](ai-trainer-checkpoints.yaml)
 
 To make this test you need run `combine.yaml` when both `job1.yaml` and `job2.yaml` are finished.
