@@ -11,7 +11,7 @@ The following two jobs will later be combined into one result.
 
 ### Combine
 This will combine `job1.yaml` and `job2.yaml`.
-- [ai-trainer-checkpoints.yaml](ai-trainer-checkpoints.yaml)
+- [combine.yaml](combine.yaml)
 
 To make this test you need run `combine.yaml` when both `job1.yaml` and `job2.yaml` are finished.
 
