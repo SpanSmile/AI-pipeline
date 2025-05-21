@@ -165,6 +165,9 @@ Then visit:
 ```
 <your-node-ip>:30948
 ```
+### Grafana Dashboard template
+You can find the used grafana dasboard [HERE](Nvidia%20GPU.json).
+
 ---
 
 ### Monitoring test
